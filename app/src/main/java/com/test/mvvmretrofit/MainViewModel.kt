@@ -2,30 +2,26 @@ package com.test.mvvmretrofit
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.test.mvvmretrofit.data.MainRepository
-import com.test.mvvmretrofit.data.Movie
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-@HiltViewModel
-class MainViewModel @Inject constructor(private val mainRepository: MainRepository): ViewModel() {
+class MainViewModel constructor(private val repository: MainRepository)  : ViewModel() {
 
     val movieList = MutableLiveData<List<Movie>>()
-    val progressBarStatus = MutableLiveData<Boolean>()
+    val errorMessage = MutableLiveData<String>()
 
-    fun fetchAllMovies() {
-        progressBarStatus.value = true
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = mainRepository.getAllMovies()
-            if (response.isSuccessful) {
+    fun getAllMovies() {
+
+        val response = repository.getAllMovies()
+        response.enqueue(object : Callback<List<Movie>> {
+            override fun onResponse(call: Call<List<Movie>>, response: Response<List<Movie>>) {
                 movieList.postValue(response.body())
             }
-        }
-        progressBarStatus.value = false
+
+            override fun onFailure(call: Call<List<Movie>>, t: Throwable) {
+                errorMessage.postValue(t.message)
+            }
+        })
     }
-
-
 }
