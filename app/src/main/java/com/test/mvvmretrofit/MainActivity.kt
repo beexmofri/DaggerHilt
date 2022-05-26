@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.test.mvvmretrofit.adapter.MovieAdapter
 import com.test.mvvmretrofit.databinding.ActivityMainBinding
-import com.test.mvvmretrofit.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
