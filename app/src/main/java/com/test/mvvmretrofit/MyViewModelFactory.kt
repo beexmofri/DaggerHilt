@@ -2,6 +2,8 @@ package com.test.mvvmretrofit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.test.mvvmretrofit.repository.MainRepository
+import com.test.mvvmretrofit.viewmodel.MainViewModel
 
 class MyViewModelFactory constructor(private val repository: MainRepository): ViewModelProvider.Factory {
 
